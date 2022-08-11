@@ -4,9 +4,8 @@ const GlobalStyle = createGlobalStyle`
   html, body {
     margin: 0;
     padding: 0;
-    background-color: #EEE;
-    color: #444;
-    font-family: 'Eczar', serif;
+    background-color: #334;
+    color: #EEE;
   }
   
   body {
@@ -18,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
   }
   * {
     box-sizing: border-box;
+    font-family: 'Libre Baskerville', serif;
   }
 `
 

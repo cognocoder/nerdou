@@ -1,20 +1,16 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '@/styles/Home.module.css'
+import Enter from '@/components/Enter'
 
 const Home: NextPage = () => {
   return (
     <>
       <Head>
         <title>nerdou</title>
-        <meta name="description" content="Conteúdo nerd pra você" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="nerdou" />
       </Head>
 
-      <main>
-        <h1> nerdou </h1>
-      </main>
+      <Enter />
     </>
   )
 }
