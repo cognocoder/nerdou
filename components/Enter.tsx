@@ -6,8 +6,7 @@ import {
 	Form,
 	Input,
 	Label,
-	Leaves1,
-	Leaves2,
+	Leaves,
 	Main,
 	Stars,
 } from '@/components/Enter.styled'
@@ -15,10 +14,15 @@ import {
 function Enter() {
 	return (
 		<>
-			<Background />
 			<Stars />
-			<Leaves1 />
-			<Leaves2 />
+			<Leaves
+				duration="10s"
+				delay="2s"
+				skew="1"
+				src="leaves1.png"
+				transx="10"
+			/>
+			<Leaves duration="6s" delay="0s" skew="1" src="leaves2.png" transx="10" />
 			<Main>
 				<Form>
 					<Label>

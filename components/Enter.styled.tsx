@@ -24,7 +24,6 @@ export const Button = styled.button`
 `
 
 export const Form = styled.form`
-	background: #334d;
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
@@ -32,11 +31,6 @@ export const Form = styled.form`
 	padding: 32px 24px;
 	transition: all 0.2s;
 	width: 360px;
-
-	&:hover,
-	&:focus {
-		background-color: #334;
-	}
 `
 
 export const Input = styled.input`
@@ -61,6 +55,7 @@ export const Input = styled.input`
 `
 
 export const Label = styled.label`
+	cursor: pointer;
 	opacity: 0.8;
 
 	&:hover,
@@ -77,14 +72,12 @@ export const Label = styled.label`
 `
 
 export const Main = styled.main`
-	align-items: center;
+	justify-content: center;
 	display: flex;
-	flex-direction: column;
 	height: 100vh;
 	margin: auto;
 	position: absolute;
-	left: 50%;
-	right: 50%;
+	width: 100vw;
 `
 
 export const Background = styled.article`
@@ -93,12 +86,20 @@ export const Background = styled.article`
 	background-repeat: no-repeat;
 	background-size: cover;
 	height: 100vh;
-	filter: blur(4px);
 	position: fixed;
 	width: 100vw;
 `
-export const Leaves1 = styled.article`
-	background-image: url('leaves1.png');
+
+interface LeavesProps {
+	delay: string
+	duration: string
+	skew: string
+	src: string
+	transx: string
+}
+
+export const Leaves = styled.article<LeavesProps>`
+	background-image: url(${(props) => props.src});
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -106,43 +107,24 @@ export const Leaves1 = styled.article`
 	position: fixed;
 	width: 100vw;
 
-	animation: wind 10s 2s infinite ease-in-out;
+	animation-name: wind;
+	animation-duration: ${(props) => props.duration};
+	animation-delay: ${(props) => props.delay};
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
 
 	@keyframes wind {
 		0% {
-			transform: skewX(1deg) translateX(-10px) scale(1.2);
+			transform: skewX(${(props) => props.skew}deg)
+				translateX(-${(props) => props.transx}px) scale(1.2);
 		}
 		50% {
-			transform: skewX(-1deg) translateX(10px) scale(1.2);
+			transform: skewX(-${(props) => props.skew}deg)
+				translateX(${(props) => props.transx}px) scale(1.2);
 		}
 		100% {
-			transform: skewX(1deg) translateX(-10px) scale(1.2);
-			filter: blur(2px);
-		}
-	}
-`
-
-export const Leaves2 = styled.article`
-	background-image: url('leaves2.png');
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	height: 100vh;
-	position: fixed;
-	width: 100vw;
-
-	animation: wind 6s infinite ease-in-out;
-
-	@keyframes wind {
-		0% {
-			transform: skewX(1deg) translateX(-10px) scale(1.2);
-		}
-		50% {
-			transform: skewX(-1deg) translateX(10px) scale(1.2);
-			filter: blur(2px);
-		}
-		100% {
-			transform: skewX(1deg) translateX(-10px) scale(1.2);
+			transform: skewX(${(props) => props.skew}deg)
+				translateX(-${(props) => props.transx}px) scale(1.2);
 		}
 	}
 `
@@ -155,7 +137,7 @@ export const Stars = styled.article`
 	height: 100vh;
 	position: fixed;
 	width: 100vw;
-	animation: shine 1.5s infinite ease-in-out;
+	animation: shine 3s infinite ease-in-out;
 
 	@keyframes shine {
 		0% {
