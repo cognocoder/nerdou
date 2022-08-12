@@ -18,6 +18,7 @@ const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
     font-family: 'Libre Baskerville', serif;
+    -webkit-tap-highlight-color: transparent;
   }
 `
 
