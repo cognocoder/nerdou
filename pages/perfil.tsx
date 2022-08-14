@@ -2,9 +2,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Container from '@/components/Container'
 import Background from '@/components/Background'
-import Enter from '@/components/Enter'
 
-const Home: NextPage = () => {
+const Perfil: NextPage = () => {
 	return (
 		<>
 			<Head>
@@ -13,11 +12,9 @@ const Home: NextPage = () => {
 			</Head>
 
 			<Background />
-			<Container>
-				<Enter />
-			</Container>
+			<Container />
 		</>
 	)
 }
 
-export default Home
+export default Perfil

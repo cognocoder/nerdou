@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import create from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
-import { Button, Form, Input, Label } from '@/components/Enter.styled'
+import { Button, Form, Input, Label, Loader } from '@/components/Enter.styled'
+import { useRouter } from 'next/router'
 
 interface IFormInput {
 	email: string
@@ -38,8 +39,11 @@ function Enter() {
 	const create = useAuthenticationStore((state) => state.create)
 	const access = useAuthenticationStore((state) => state.access)
 	const refresh = useAuthenticationStore((state) => state.refresh)
+	const [requestStatus, setRequestStatus] = useState('')
+	const router = useRouter()
 
 	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+		setRequestStatus('pending')
 		const url =
 			process.env.NEXT_PUBLIC_NERDOU_API_URL || 'http://localhost:6000'
 		const res = await fetch(`${url}/authentication`, {
@@ -55,15 +59,29 @@ function Enter() {
 			const { refresh } = await res.json()
 			const access = res.headers.get('Authorization') || ''
 			create(access, refresh)
-			console.log({ access, refresh })
+			setRequestStatus('finished')
+			setTimeout(() => router.push('/perfil'), 600)
+		} else if (res.status === 401) {
+			setRequestStatus('Credenciais inválidas')
+		} else {
+			setRequestStatus('Tente novamente mais tarde')
 		}
 
 		return res
 	}
 
+	useEffect(() => {
+		router.prefetch('/perfil')
+
+		if (access.length && refresh.length) {
+			setRequestStatus('finished')
+			setTimeout(() => router.push('/perfil'), 600)
+		}
+	}, [router, access.length, refresh.length])
+
 	return (
 		<>
-			<Form onSubmit={handleSubmit(onSubmit)}>
+			<Form status={requestStatus} onSubmit={handleSubmit(onSubmit)}>
 				<Label>
 					<Input
 						type="email"
@@ -91,7 +109,13 @@ function Enter() {
 					/>
 					<p>senha{errors.password?.message}</p>
 				</Label>
-				<Button type="submit" value="nerdou" />
+				<Button type="submit">
+					nerdou
+					<Loader status={requestStatus} />
+				</Button>
+				{!['pending', 'finished'].includes(requestStatus) && (
+					<p>{requestStatus}</p>
+				)}
 			</Form>
 		</>
 	)
