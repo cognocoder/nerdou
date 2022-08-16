@@ -26,7 +26,7 @@ const Perfil: NextPage = () => {
 
 			<Background />
 			<Container>
-				{authenticated ? <h1>Perfil</h1> : <h1>Usuário não autenticado</h1>}
+				{!authenticated ? <h1>Usuário não autenticado</h1> : <h1>Perfil</h1>}
 			</Container>
 		</>
 	)

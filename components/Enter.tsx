@@ -22,6 +22,10 @@ function Enter() {
 	const router = useRouter()
 
 	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+		if (['pending', 'finished'].includes(requestStatus)) {
+			return
+		}
+
 		setRequestStatus('pending')
 		const url =
 			process.env.NEXT_PUBLIC_NERDOU_API_URL || 'http://localhost:6000'
@@ -88,7 +92,7 @@ function Enter() {
 					/>
 					<p>senha{errors.password?.message}</p>
 				</Label>
-				<Button type="submit">
+				<Button type="submit" status={requestStatus}>
 					nerdou
 					<Loader status={requestStatus} />
 				</Button>

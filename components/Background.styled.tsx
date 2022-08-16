@@ -47,6 +47,7 @@ export const Stars = styled.article`
 	height: 100vh;
 	position: fixed;
 	width: 100vw;
+
 	animation: shine 3s infinite ease-in-out;
 
 	@keyframes shine {

@@ -1,12 +1,13 @@
 import styled from 'styled-components'
 
-export const Button = styled.button`
+export const Button = styled.button<IRequestStatusProps>`
 	background-color: #c42;
 	border: none;
 	border-radius: 8px;
 	box-shadow: 0 7px 12px #2226;
 	color: #eee;
-	cursor: pointer;
+	cursor: ${(props) =>
+		['pending', 'finished'].includes(props.status) ? 'wait' : 'pointer'};
 	font-size: 36px;
 	font-weight: bold;
 	margin-block-start: 48px;
