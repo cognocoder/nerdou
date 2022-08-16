@@ -1,33 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
-import create from 'zustand'
-import { immer } from 'zustand/middleware/immer'
-
 import { Button, Form, Input, Label, Loader } from '@/components/Enter.styled'
 import { useRouter } from 'next/router'
+import { useAuthenticationSlice as useAuthSlice } from 'hooks/AuthenticationSlice'
 
 interface IFormInput {
 	email: string
 	password: string
 }
-interface IAuthenticationState {
-	access: string
-	refresh: string
-	create: (access: string, refresh: string) => void
-}
-
-const useAuthenticationStore = create<IAuthenticationState>()(
-	immer((set) => ({
-		access: '',
-		refresh: '',
-		create: (access, refresh) =>
-			set((state) => {
-				state.access = access
-				state.refresh = refresh
-			}),
-	}))
-)
 
 function Enter() {
 	const {
@@ -36,9 +17,7 @@ function Enter() {
 		handleSubmit,
 	} = useForm<IFormInput>()
 
-	const create = useAuthenticationStore((state) => state.create)
-	const access = useAuthenticationStore((state) => state.access)
-	const refresh = useAuthenticationStore((state) => state.refresh)
+	const { access, refresh, save } = useAuthSlice((state) => state.tokens)
 	const [requestStatus, setRequestStatus] = useState('')
 	const router = useRouter()
 
@@ -58,7 +37,7 @@ function Enter() {
 		if (res.status === 200) {
 			const { refresh } = await res.json()
 			const access = res.headers.get('Authorization') || ''
-			create(access, refresh)
+			save(access, refresh)
 			setRequestStatus('finished')
 			setTimeout(() => router.push('/perfil'), 600)
 		} else if (res.status === 401) {

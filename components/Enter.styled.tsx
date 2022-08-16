@@ -29,7 +29,6 @@ export const Button = styled.button`
 export const Form = styled.form<IRequestStatusProps>`
 	display: flex;
 	flex-direction: column;
-	margin: 16vh 0;
 	padding: 32px 24px;
 	transition: all 0.2s;
 	width: 360px;
