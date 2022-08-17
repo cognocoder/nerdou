@@ -22,7 +22,7 @@ function Enter() {
 	const router = useRouter()
 
 	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-		if (['pending', 'finished'].includes(requestStatus)) {
+		if (['pending', 'success'].includes(requestStatus)) {
 			return
 		}
 
@@ -45,7 +45,7 @@ function Enter() {
 			save(access, refresh)
 
 			setTimeout(() => router.push('/perfil'), 600)
-			setRequestStatus('finished')
+			setRequestStatus('success')
 		} else if (res.status === 401) {
 			setRequestStatus('Credenciais inválidas')
 		} else {
@@ -57,7 +57,7 @@ function Enter() {
 
 	useEffect(() => {
 		if (access.length && refresh.length) {
-			setRequestStatus('finished')
+			setRequestStatus('success')
 			setTimeout(() => router.push('/perfil'), 600)
 		}
 	}, [router, access.length, refresh.length])
@@ -96,7 +96,7 @@ function Enter() {
 					nerdou
 					<Loader status={requestStatus} />
 				</Button>
-				{!['pending', 'finished'].includes(requestStatus) && (
+				{!['pending', 'success'].includes(requestStatus) && (
 					<p>{requestStatus}</p>
 				)}
 			</Form>

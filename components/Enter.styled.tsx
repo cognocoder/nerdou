@@ -7,7 +7,7 @@ export const Button = styled.button<IRequestStatusProps>`
 	box-shadow: 0 7px 12px #2226;
 	color: #eee;
 	cursor: ${(props) =>
-		['pending', 'finished'].includes(props.status) ? 'wait' : 'pointer'};
+		['pending', 'success'].includes(props.status) ? 'wait' : 'pointer'};
 	font-size: 36px;
 	font-weight: bold;
 	margin-block-start: 48px;
@@ -33,7 +33,7 @@ export const Form = styled.form<IRequestStatusProps>`
 	padding: 32px 24px;
 	transition: all 0.2s;
 	width: 360px;
-	opacity: ${(props) => (props.status === 'finished' ? 0 : 1)};
+	opacity: ${(props) => (props.status === 'success' ? 0 : 1)};
 	transition: all 0.5s;
 
 	& p {
@@ -46,7 +46,7 @@ export const Form = styled.form<IRequestStatusProps>`
 	& button + p {
 		font-size: 18px;
 		opacity: ${(props) =>
-			['pending', 'finished'].includes(props.status) ? 0 : 1};
+			['pending', 'success'].includes(props.status) ? 0 : 1};
 		text-align: center;
 		transition: all 1s;
 	}

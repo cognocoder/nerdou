@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { useQuery } from '@tanstack/react-query'
 import { useAuthenticationSlice as useAuthSlice } from 'hooks/AuthenticationSlice'
 
 import jwt_decode from 'jwt-decode'
-import { Button, Header } from './Account.styled'
+import { Button, Header, Loader } from './Account.styled'
+import Link from 'next/link'
 
 function Account() {
 	const { access, refresh, save } = useAuthSlice((state) => state.tokens)
@@ -14,21 +15,34 @@ function Account() {
 	const router = useRouter()
 	const url = process.env.NEXT_PUBLIC_NERDOU_API_URL || 'http://localhost:6000'
 
+	const [button, setButton] = useState('none')
+
 	async function exit() {
-		const options: RequestInit = {
-			credentials: 'include',
-			method: 'DELETE',
-			headers: {
-				Authorization: access,
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ refresh }),
+		if (button !== 'none') {
+			return
 		}
 
-		const res = fetch(`${url}/authentication`, options)
+		setButton('exit')
+		try {
+			const options: RequestInit = {
+				credentials: 'include',
+				method: 'DELETE',
+				headers: {
+					Authorization: access,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ refresh }),
+			}
 
-		save('', '')
-		router.push('/')
+			const res = await fetch(`${url}/authentication`, options)
+
+			setButton('none')
+			save('', '')
+			router.push('/')
+		} catch (error) {
+			setButton('none')
+			console.log(error)
+		}
 	}
 
 	const { status, error, data } = useQuery(['getAccount'], async () => {
@@ -50,7 +64,11 @@ function Account() {
 	if (status === 'success') {
 		return (
 			<Header>
-				<h2>{data.username}</h2>
+				<h2>
+					<Link href="/perfil">
+						<a>{data.username}</a>
+					</Link>
+				</h2>
 				<p>
 					{`#${id}`}
 					<br />
@@ -62,7 +80,7 @@ function Account() {
 						background="#444"
 						color="#eee"
 						padding="12px 32px"
-						status="none"
+						status={button === 'verify' ? 'loading' : button}
 					>
 						verificar e-mail
 					</Button>
@@ -72,17 +90,18 @@ function Account() {
 					background="#444"
 					color="#eee"
 					padding="12px 32px"
-					status="none"
+					status={button === 'exit' ? 'loading' : button}
 					onClick={exit}
 				>
 					sair
+					<Loader status={button === 'exit' ? 'loading' : button} />
 				</Button>
 				<Button
 					type="button"
 					background="#921"
 					color="#eee"
 					padding="12px 32px"
-					status="none"
+					status={button === 'delete' ? 'loading' : button}
 				>
 					deletar conta
 				</Button>
@@ -91,9 +110,11 @@ function Account() {
 	}
 
 	return (
-		<>
-			<p>{id}</p>
-		</>
+		<Header>
+			<p>
+				<Loader status={status} size="48px" />
+			</p>
+		</Header>
 	)
 }
 
