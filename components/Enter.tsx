@@ -41,9 +41,11 @@ function Enter() {
 		if (res.status === 200) {
 			const { refresh } = await res.json()
 			const access = res.headers.get('Authorization') || ''
+
 			save(access, refresh)
-			setRequestStatus('finished')
+
 			setTimeout(() => router.push('/perfil'), 600)
+			setRequestStatus('finished')
 		} else if (res.status === 401) {
 			setRequestStatus('Credenciais inválidas')
 		} else {
@@ -54,8 +56,6 @@ function Enter() {
 	}
 
 	useEffect(() => {
-		router.prefetch('/perfil')
-
 		if (access.length && refresh.length) {
 			setRequestStatus('finished')
 			setTimeout(() => router.push('/perfil'), 600)

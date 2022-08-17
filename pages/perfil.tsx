@@ -5,6 +5,7 @@ import Background from '@/components/Background'
 import useAuthenticated from '@/hooks/Authenticated'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import Account from '@/components/Account'
 
 const Perfil: NextPage = () => {
 	const authenticated = useAuthenticated()
@@ -13,7 +14,7 @@ const Perfil: NextPage = () => {
 
 	useEffect(() => {
 		if (!authenticated) {
-			setTimeout(() => router.push('/'), 2400)
+			setTimeout(() => router.push('/'), 800)
 		}
 	})
 
@@ -26,7 +27,7 @@ const Perfil: NextPage = () => {
 
 			<Background />
 			<Container>
-				{!authenticated ? <h1>Usuário não autenticado</h1> : <h1>Perfil</h1>}
+				{!authenticated ? <h1>Usuário não autenticado</h1> : <Account />}
 			</Container>
 		</>
 	)

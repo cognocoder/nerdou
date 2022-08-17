@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 
 export const Main = styled.main`
-	justify-content: center;
+	align-items: center;
 	display: flex;
+	flex-direction: column;
 	height: 100vh;
+	justify-content: start;
 	margin: auto;
 	padding-block: 96px;
 	position: absolute;

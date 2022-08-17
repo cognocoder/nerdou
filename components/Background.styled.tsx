@@ -17,6 +17,9 @@ export const Leaves = styled.article<LeavesProps>`
 	position: fixed;
 	width: 100vw;
 
+	transition: all 0.5s ease;
+	transform: scale(1.012);
+
 	animation-name: wind;
 	animation-duration: ${(props) => props.duration};
 	animation-delay: ${(props) => props.delay};
@@ -26,15 +29,15 @@ export const Leaves = styled.article<LeavesProps>`
 	@keyframes wind {
 		0% {
 			transform: skewX(${(props) => props.skew}deg)
-				translateX(-${(props) => props.transx}px) scale(1.0175);
+				translateX(-${(props) => props.transx}px) scale(1.012);
 		}
 		50% {
 			transform: skewX(-${(props) => props.skew}deg)
-				translateX(${(props) => props.transx}px) scale(1.02);
+				translateX(${(props) => props.transx}px) scale(1.008);
 		}
 		100% {
 			transform: skewX(${(props) => props.skew}deg)
-				translateX(-${(props) => props.transx}px) scale(1.0175);
+				translateX(-${(props) => props.transx}px) scale(1.012);
 		}
 	}
 `
