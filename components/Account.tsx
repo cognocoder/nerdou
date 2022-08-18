@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useAuthenticationSlice as useAuthSlice } from 'hooks/AuthenticationSlice'
 
 import jwt_decode from 'jwt-decode'
-import { Button, Header, Loader } from './Account.styled'
+import { Button, Header, Loader } from './Elements.styled'
 import Link from 'next/link'
 
 function Account() {
@@ -77,9 +77,6 @@ function Account() {
 				{!data.verified && (
 					<Button
 						type="button"
-						background="#444"
-						color="#eee"
-						padding="12px 32px"
 						status={button === 'verify' ? 'loading' : button}
 					>
 						verificar e-mail
@@ -87,9 +84,6 @@ function Account() {
 				)}
 				<Button
 					type="button"
-					background="#444"
-					color="#eee"
-					padding="12px 32px"
 					status={button === 'exit' ? 'loading' : button}
 					onClick={exit}
 				>
@@ -99,11 +93,9 @@ function Account() {
 				<Button
 					type="button"
 					background="#921"
-					color="#eee"
-					padding="12px 32px"
 					status={button === 'delete' ? 'loading' : button}
 				>
-					deletar conta
+					excluir conta
 				</Button>
 			</Header>
 		)
@@ -112,7 +104,7 @@ function Account() {
 	return (
 		<Header>
 			<p>
-				<Loader status={status} size="48px" />
+				<Loader status={status} size="48px" margin="0 -24px" />
 			</p>
 		</Header>
 	)

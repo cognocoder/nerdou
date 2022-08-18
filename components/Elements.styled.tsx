@@ -14,9 +14,9 @@ interface IStatus {
 	status: string
 }
 
-interface IOptionsProps extends IBox, IColor, Partial<IStatus> {}
+interface IOptionsProperties extends IBox, IColor, Partial<IStatus> {}
 
-export const Button = styled.button<IOptionsProps>`
+export const Button = styled.button<IOptionsProperties>`
 	background-color: ${(props) => props.background || '#444'};
 	color: ${(props) => props.color || '#eee'};
 
@@ -49,7 +49,31 @@ export const Button = styled.button<IOptionsProps>`
 	}
 `
 
-export const Loader = styled.span<IOptionsProps>`
+export const Form = styled.form<IStatus>`
+	display: flex;
+	flex-direction: column;
+	padding: 32px 24px;
+	transition: all 0.2s;
+	width: 360px;
+	opacity: ${(props) => (props.status === 'success' ? 0 : 1)};
+	transition: all 0.5s;
+
+	& p {
+		font-style: italic;
+		user-select: none;
+		margin-block-start: 12px;
+		padding-inline: 8px;
+	}
+
+	& button + p {
+		font-size: 18px;
+		opacity: ${(props) =>
+			['pending', 'success'].includes(props.status) ? 0 : 1};
+		text-align: center;
+		transition: all 1s;
+	}
+`
+export const Loader = styled.span<IOptionsProperties>`
 	display: inline-block;
 	border-top: 3px solid ${(props) => props.color || '#eee'};
 	border-radius: 50%;

@@ -2,20 +2,23 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Container from '@/components/Container'
 import Background from '@/components/Background'
-import useAuthenticated from '@/hooks/Authenticated'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import Account from '@/components/Account'
+import useAuthenticationSlice from '@/hooks/AuthenticationSlice'
 
 const Perfil: NextPage = () => {
-	const authenticated = useAuthenticated()
-
 	const router = useRouter()
 
+	const { access, load, refresh, save } = useAuthenticationSlice(
+		(state) => state.tokens
+	)
+
 	useEffect(() => {
-		if (!authenticated) {
-			setTimeout(() => router.push('/'), 800)
+		if ((access.length && refresh.length) || load()) {
+			return
 		}
+		setTimeout(() => router.push('/'), 800)
 	})
 
 	return (
@@ -27,7 +30,7 @@ const Perfil: NextPage = () => {
 
 			<Background />
 			<Container>
-				{!authenticated ? <h2>Usuário não autenticado</h2> : <Account />}
+				{access.length && refresh.length ? <Account /> : <></>}
 			</Container>
 		</>
 	)

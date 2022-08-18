@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
-import { Button, Form, Input, Label, Loader } from '@/components/Enter.styled'
+import { Input, Label } from '@/components/Enter.styled'
+import { Button, Form, Loader } from '@/components/Elements.styled'
 import { useRouter } from 'next/router'
 import { useAuthenticationSlice as useAuthSlice } from 'hooks/AuthenticationSlice'
 
@@ -18,15 +19,15 @@ function Enter() {
 	} = useForm<IFormInput>()
 
 	const { access, refresh, save } = useAuthSlice((state) => state.tokens)
-	const [requestStatus, setRequestStatus] = useState('')
+	const [button, setButton] = useState('none')
 	const router = useRouter()
 
 	const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-		if (['pending', 'success'].includes(requestStatus)) {
+		if (button !== 'none') {
 			return
 		}
 
-		setRequestStatus('pending')
+		setButton('access')
 		const url =
 			process.env.NEXT_PUBLIC_NERDOU_API_URL || 'http://localhost:6000'
 		const res = await fetch(`${url}/authentication`, {
@@ -45,11 +46,11 @@ function Enter() {
 			save(access, refresh)
 
 			setTimeout(() => router.push('/perfil'), 600)
-			setRequestStatus('success')
+			setButton('success')
 		} else if (res.status === 401) {
-			setRequestStatus('Credenciais inválidas')
+			setButton('Credenciais inválidas')
 		} else {
-			setRequestStatus('Tente novamente mais tarde')
+			setButton('Tente novamente mais tarde')
 		}
 
 		return res
@@ -57,14 +58,14 @@ function Enter() {
 
 	useEffect(() => {
 		if (access.length && refresh.length) {
-			setRequestStatus('success')
+			setButton('success')
 			setTimeout(() => router.push('/perfil'), 600)
 		}
 	}, [router, access.length, refresh.length])
 
 	return (
 		<>
-			<Form status={requestStatus} onSubmit={handleSubmit(onSubmit)}>
+			<Form status={button} onSubmit={handleSubmit(onSubmit)}>
 				<Label>
 					<Input
 						type="email"
@@ -92,13 +93,11 @@ function Enter() {
 					/>
 					<p>senha{errors.password?.message}</p>
 				</Label>
-				<Button type="submit" status={requestStatus}>
+				<Button type="submit" background="#c42" status={button}>
 					nerdou
-					<Loader status={requestStatus} />
+					<Loader status={button === 'access' ? 'pending' : button} />
 				</Button>
-				{!['pending', 'success'].includes(requestStatus) && (
-					<p>{requestStatus}</p>
-				)}
+				{!['access', 'none', 'success'].includes(button) && <p>{button}</p>}
 			</Form>
 		</>
 	)
