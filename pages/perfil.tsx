@@ -18,7 +18,7 @@ const Perfil: NextPage = () => {
 		if ((access.length && refresh.length) || load()) {
 			return
 		}
-		setTimeout(() => router.push('/'), 800)
+		setTimeout(() => router.push('/acesso'), 800)
 	})
 
 	return (

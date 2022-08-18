@@ -1,16 +1,15 @@
-
 import { render, screen } from '@testing-library/react'
 
-import Home from '@/pages/index'
+import Home from '@/pages/acesso'
 
 describe('Home', () => {
-  it('renders the heading', () => {
-    render(<Home />)
+	it('renders the heading', () => {
+		render(<Home />)
 
-    const heading = screen.getByRole('heading', {
-      name: /nerdou/i,
-    })
+		const heading = screen.getByRole('heading', {
+			name: /nerdou/i,
+		})
 
-    expect(heading).toBeInTheDocument()
-  })
+		expect(heading).toBeInTheDocument()
+	})
 })

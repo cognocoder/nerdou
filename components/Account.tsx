@@ -38,7 +38,7 @@ function Account() {
 
 			setButton('none')
 			save('', '')
-			router.push('/')
+			router.push('/acesso')
 		} catch (error) {
 			setButton('none')
 			console.log(error)

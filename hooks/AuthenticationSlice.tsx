@@ -15,6 +15,7 @@ export const useAuthenticationSlice = create<IAuthenticationSlice>()(
 		tokens: {
 			access: '',
 			refresh: '',
+
 			load: () => {
 				const access = localStorage.getItem('access') || ''
 				const refresh = localStorage.getItem('refresh') || ''
@@ -27,11 +28,14 @@ export const useAuthenticationSlice = create<IAuthenticationSlice>()(
 				if (access.length && refresh.length) {
 					return true
 				}
+
 				return false
 			},
+
 			save: (access, refresh) => {
 				localStorage.setItem('access', access)
 				localStorage.setItem('refresh', refresh)
+
 				set((state) => {
 					state.tokens.access = access
 					state.tokens.refresh = refresh

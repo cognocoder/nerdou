@@ -26,6 +26,7 @@ export const Button = styled.button<IOptionsProperties>`
 	cursor: ${(props) => (props.status !== 'none' ? 'wait' : 'pointer')};
 	font-size: 18px;
 	font-weight: bold;
+	margin: ${(props) => props.margin || '0'};
 	opacity: 1;
 	padding: ${(props) => props.padding || '12px 36px'};
 	width: 320px;

@@ -1,10 +1,25 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import Container from '@/components/Container'
 import Background from '@/components/Background'
-import Enter from '@/components/Enter'
+import { useEffect } from 'react'
+import useAuthenticationSlice from '@/hooks/AuthenticationSlice'
 
 const Home: NextPage = () => {
+	const { access, refresh } = useAuthenticationSlice((state) => state.tokens)
+	const { load } = useAuthenticationSlice((state) => state.tokens)
+
+	const router = useRouter()
+
+	useEffect(() => {
+		if ((access.length && refresh.length) || load()) {
+			setTimeout(() => router.push('/perfil'), 800)
+			return
+		}
+		setTimeout(() => router.push('/acesso'), 800)
+	})
+
 	return (
 		<>
 			<Head>
@@ -13,9 +28,7 @@ const Home: NextPage = () => {
 			</Head>
 
 			<Background />
-			<Container>
-				<Enter />
-			</Container>
+			<Container />
 		</>
 	)
 }

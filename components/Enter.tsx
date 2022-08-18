@@ -56,6 +56,11 @@ function Enter() {
 		return res
 	}
 
+	const onClick = () => {
+		setButton('success')
+		setTimeout(() => router.push('/cadastro'), 600)
+	}
+
 	useEffect(() => {
 		if (access.length && refresh.length) {
 			setButton('success')
@@ -98,6 +103,15 @@ function Enter() {
 					<Loader status={button === 'access' ? 'pending' : button} />
 				</Button>
 				{!['access', 'none', 'success'].includes(button) && <p>{button}</p>}
+				<Button
+					type="button"
+					background="#346"
+					margin="18px 0"
+					onClick={onClick}
+					status={button}
+				>
+					cadastro
+				</Button>
 			</Form>
 		</>
 	)
