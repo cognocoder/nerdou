@@ -13,10 +13,11 @@ import { useAuthenticationSlice as useAuthSlice } from 'hooks/AuthenticationSlic
 
 interface IFormInput {
 	email: string
-	password: string
+	passhash: string
+	username: string
 }
 
-function Access() {
+function Register() {
 	const {
 		register,
 		formState: { errors },
@@ -32,28 +33,47 @@ function Access() {
 			return
 		}
 
-		setButton('access')
+		setButton('register')
 		const url =
 			process.env.NEXT_PUBLIC_NERDOU_API_URL || 'http://localhost:6000'
-		const res = await fetch(`${url}/authentication`, {
+		const res = await fetch(`${url}/accounts`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ username: data.email, password: data.password }),
+			body: JSON.stringify({
+				email: data.email,
+				passhash: data.passhash,
+				username: data.username,
+			}),
 		})
 
-		if (res.status === 200) {
-			const { refresh } = await res.json()
-			const access = res.headers.get('Authorization') || ''
+		if (res.status === 201) {
+			const auth = await fetch(`${url}/authentication`, {
+				method: 'POST',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ username: data.email, password: data.passhash }),
+			})
 
-			save(access, refresh)
+			if (auth.status == 200) {
+				const { refresh } = await auth.json()
+				const access = auth.headers.get('Authorization') || ''
 
-			setTimeout(() => router.push('/perfil'), 600)
-			setButton('success')
-		} else if (res.status === 401) {
-			setButton('Credenciais inválidas')
+				save(access, refresh)
+
+				setButton('success')
+				setTimeout(() => router.push('/perfil'), 600)
+			} else if (auth.status === 401) {
+				setButton('Credenciais inválidas')
+			} else {
+				setButton('Tente novamente mais tarde')
+			}
+		} else if (res.status === 400) {
+			setButton('E-mail já cadastrado')
 		} else {
 			setButton('Tente novamente mais tarde')
 		}
@@ -62,12 +82,8 @@ function Access() {
 	}
 
 	const onClick = () => {
-		if (button === 'access') {
-			return
-		}
-
 		setButton('success')
-		setTimeout(() => router.push('/cadastrar'), 600)
+		setTimeout(() => router.push('/acessar'), 600)
 	}
 
 	useEffect(() => {
@@ -97,7 +113,7 @@ function Access() {
 				<Label>
 					<Input
 						type="password"
-						{...register('password', {
+						{...register('passhash', {
 							pattern: {
 								message: ' · valor inválido',
 								value: /^.{8,}$/,
@@ -105,11 +121,24 @@ function Access() {
 							required: ' · campo obrigatório',
 						})}
 					/>
-					<p>senha{errors.password?.message}</p>
+					<p>senha{errors.passhash?.message}</p>
+				</Label>
+				<Label>
+					<Input
+						type="text"
+						{...register('username', {
+							pattern: {
+								message: ' · valor inválido',
+								value: /^.{2,}$/,
+							},
+							required: ' · campo obrigatório',
+						})}
+					/>
+					<p>nome de uruário{errors.username?.message}</p>
 				</Label>
 				<Button type="submit" background="#c42" status={button}>
-					acesso nerdou
-					<Loader status={button === 'access' ? 'pending' : button} />
+					cadastro nerdou
+					<Loader status={button === 'register' ? 'pending' : button} />
 				</Button>
 				<Button
 					type="button"
@@ -118,12 +147,12 @@ function Access() {
 					onClick={onClick}
 					status={button}
 				>
-					cadastrar
+					acessar
 				</Button>
-				{!['access', 'none', 'success'].includes(button) && <p>{button}</p>}
+				{!['register', 'none', 'success'].includes(button) && <p>{button}</p>}
 			</Form>
 		</>
 	)
 }
 
-export default Access
+export default Register

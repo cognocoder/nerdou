@@ -49,7 +49,7 @@ function Cancel() {
 
 		if (res.status === 200) {
 			save('', '')
-			setTimeout(() => router.push('/perfil'), 600)
+			setTimeout(() => router.push('/cadastrar'), 600)
 			setButton('success')
 		} else if (res.status === 401) {
 			setButton('Credenciais inválidas')
@@ -63,6 +63,10 @@ function Cancel() {
 	}
 
 	const onClick = () => {
+		if (button === 'cancelar') {
+			return
+		}
+
 		setButton('success')
 		setTimeout(() => router.push('/acessar'), 600)
 	}
