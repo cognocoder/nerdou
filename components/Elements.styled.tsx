@@ -74,31 +74,6 @@ export const Form = styled.form<IStatus>`
 		transition: all 1s;
 	}
 `
-export const Loader = styled.span<IOptionsProperties>`
-	display: inline-block;
-	border-top: 3px solid ${(props) => props.color || '#eee'};
-	border-radius: 50%;
-	border-right: 3px solid transparent;
-	height: ${(props) => props.size || '12px'};
-	margin: ${(props) => props.margin || '6px 8px'};
-	opacity: ${(props) =>
-		['loading', 'pending'].includes(props.status || '') ? 1 : 0};
-	padding: ${(props) => props.padding || '0'};
-	position: absolute;
-	transition: all 0.5s;
-	width: ${(props) => props.size || '12px'};
-
-	animation: rotation 1s linear infinite;
-
-	@keyframes rotation {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
-	}
-`
 
 export const Header = styled.header`
 	align-items: center;
@@ -134,6 +109,66 @@ export const Header = styled.header`
 	@media only screen and (min-width: 768px) {
 		& p {
 			text-align: left;
+		}
+	}
+`
+
+export const Input = styled.input`
+	background: none;
+	border: 1px solid #eee0;
+	border-bottom: 1px solid #eee2;
+	color: #eee;
+	display: block;
+	font-size: 18px;
+	padding: 12px 4px;
+	transition: 0.25s;
+	width: 100%;
+
+	&:hover {
+		border-bottom: 1px solid #eee8;
+	}
+
+	&:focus {
+		border-bottom: 1px solid #eeef;
+		outline: none;
+	}
+`
+
+export const Label = styled.label`
+	cursor: pointer;
+	opacity: 1;
+
+	@media only screen and (min-width: 768px) {
+		opacity: 0.8;
+	}
+
+	&:hover,
+	&:focus {
+		opacity: 1;
+	}
+`
+export const Loader = styled.span<IOptionsProperties>`
+	display: inline-block;
+	border-top: 3px solid ${(props) => props.color || '#eee'};
+	border-radius: 50%;
+	border-right: 3px solid transparent;
+	height: ${(props) => props.size || '12px'};
+	margin: ${(props) => props.margin || '6px 8px'};
+	opacity: ${(props) =>
+		['loading', 'pending'].includes(props.status || '') ? 1 : 0};
+	padding: ${(props) => props.padding || '0'};
+	position: absolute;
+	transition: all 0.5s;
+	width: ${(props) => props.size || '12px'};
+
+	animation: rotation 1s linear infinite;
+
+	@keyframes rotation {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
 		}
 	}
 `

@@ -38,11 +38,16 @@ function Account() {
 
 			setButton('none')
 			save('', '')
-			router.push('/acesso')
+			router.push('/acessar')
 		} catch (error) {
 			setButton('none')
 			console.log(error)
 		}
+	}
+
+	function cancel() {
+		setButton('delete')
+		setTimeout(() => router.push('/cancelar'), 600)
 	}
 
 	const { status, error, data } = useQuery(['getAccount'], async () => {
@@ -94,6 +99,7 @@ function Account() {
 					type="button"
 					background="#921"
 					status={button === 'delete' ? 'loading' : button}
+					onClick={cancel}
 				>
 					excluir conta
 				</Button>

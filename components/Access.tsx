@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
-import { Input, Label } from '@/components/Enter.styled'
-import { Button, Form, Loader } from '@/components/Elements.styled'
+import {
+	Button,
+	Form,
+	Input,
+	Label,
+	Loader,
+} from '@/components/Elements.styled'
 import { useRouter } from 'next/router'
 import { useAuthenticationSlice as useAuthSlice } from 'hooks/AuthenticationSlice'
 
@@ -11,7 +16,7 @@ interface IFormInput {
 	password: string
 }
 
-function Enter() {
+function Access() {
 	const {
 		register,
 		formState: { errors },
@@ -58,7 +63,7 @@ function Enter() {
 
 	const onClick = () => {
 		setButton('success')
-		setTimeout(() => router.push('/cadastro'), 600)
+		setTimeout(() => router.push('/cadastrar'), 600)
 	}
 
 	useEffect(() => {
@@ -117,4 +122,4 @@ function Enter() {
 	)
 }
 
-export default Enter
+export default Access

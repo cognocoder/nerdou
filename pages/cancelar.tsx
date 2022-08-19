@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Container from '@/components/Container'
 import Background from '@/components/Background'
-import Enter from '@/components/Enter'
+import Cancel from '@/components/Cancel'
 
 const Home: NextPage = () => {
 	return (
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
 
 			<Background />
 			<Container>
-				<Enter />
+				<Cancel />
 			</Container>
 		</>
 	)
